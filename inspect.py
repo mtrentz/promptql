@@ -139,3 +139,5 @@ def inspect(args):
 
     # Remove temp file
     os.remove(tmp)
+
+    print("Database successfully inspected.")
