@@ -4,47 +4,47 @@ import os
 import subprocess
 import shlex
 
-export_parser = argparse.ArgumentParser(
+inspect_parser = argparse.ArgumentParser(
     description="Transform your PostgreSQL database into DBML tables. All arguments are required if not provided in a .env file.",
 )
 
 # Add flags for host, port, user, password, database, and schema, etc...
-export_parser.add_argument(
+inspect_parser.add_argument(
     "--host",
     "-H",
     type=str,
     help="The host of the database.",
 )
 
-export_parser.add_argument(
+inspect_parser.add_argument(
     "--port",
     "-p",
     type=int,
     help="The port of the database.",
 )
 
-export_parser.add_argument(
+inspect_parser.add_argument(
     "--user",
     "-u",
     type=str,
     help="The user of the database.",
 )
 
-export_parser.add_argument(
+inspect_parser.add_argument(
     "--password",
     "-P",
     type=str,
     help="The password of the database.",
 )
 
-export_parser.add_argument(
+inspect_parser.add_argument(
     "--database",
     "-d",
     type=str,
-    help="The database to export.",
+    help="The database to inspect.",
 )
 
-export_parser.add_argument(
+inspect_parser.add_argument(
     "--output",
     "-o",
     type=str,
@@ -53,14 +53,14 @@ export_parser.add_argument(
 )
 
 # Docker container name
-export_parser.add_argument(
+inspect_parser.add_argument(
     "--container",
     "-c",
     type=str,
     help="If provided, will run pg_dump for a docker container with this name.",
 )
 
-export_parser.add_argument(
+inspect_parser.add_argument(
     "--env",
     "-e",
     type=str,
@@ -69,7 +69,7 @@ export_parser.add_argument(
 )
 
 
-def export(args):
+def inspect(args):
     # Load environment variables
     load_env(args.env)
 

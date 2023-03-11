@@ -1,5 +1,5 @@
 from argparse import ArgumentParser
-import export, tables
+import inspect, tables
 
 
 # Default func
@@ -18,13 +18,13 @@ subparsers = parser.add_subparsers(
     title="Operations", help="Call promptql.py <operation> -h for more info."
 )
 
-# Export subcommand
-export_parser = subparsers.add_parser(
-    "export",
-    parents=[export.export_parser],
+# inspect subcommand
+inspect_parser = subparsers.add_parser(
+    "inspect",
+    parents=[inspect.inspect_parser],
     add_help=False,
 )
-export_parser.set_defaults(func=export.export)
+inspect_parser.set_defaults(func=inspect.inspect)
 
 # Tables subcommand
 tables_parser = subparsers.add_parser(
