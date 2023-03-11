@@ -5,7 +5,7 @@ import subprocess
 import shlex
 
 inspect_parser = argparse.ArgumentParser(
-    description="Transform your PostgreSQL database into DBML tables. All arguments are required if not provided in a .env file.",
+    description="Inspect your PostgreSQL database as transform it into DBML notation. All arguments are required if not provided in a .env file.",
 )
 
 # Add flags for host, port, user, password, database, and schema, etc...

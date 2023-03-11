@@ -1,5 +1,5 @@
 from argparse import ArgumentParser
-import inspect, tables
+import inspect, generate
 
 
 # Default func
@@ -26,13 +26,13 @@ inspect_parser = subparsers.add_parser(
 )
 inspect_parser.set_defaults(func=inspect.inspect)
 
-# Tables subcommand
-tables_parser = subparsers.add_parser(
-    "tables",
-    parents=[tables.table_parser],
+# generate subcommand
+generate_parser = subparsers.add_parser(
+    "generate",
+    parents=[generate.generate_parser],
     add_help=False,
 )
-tables_parser.set_defaults(func=tables.tables)
+generate_parser.set_defaults(func=generate.generate)
 
 args = parser.parse_args()
 args.func(args)
