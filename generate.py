@@ -12,6 +12,9 @@ def export_to_file(dbml):
 	# TODO: Here in the future I want to put some extra text
 	# that will help chatgpt to generate the code. For example: Act as...
 	# use postgres! and so on...
+
+	# TODO: Here I want to see if output too large, if so
+	# break it into multiple prompts for GPT. (Gotta test first how works best).
 	with open("prompt.txt", "w+") as f:
 		for val in dbml.values():
 			f.write(val)
@@ -44,23 +47,22 @@ def generate(args):
 	# Now initiate the inquirer section where the user
 	# will choose which tables to export.
 	while True:
-
 		print(f"Tables selected: {len([t['name'] for t in table_selection if t['checked']])}")
-
 		menu_answer = menu_mode()
 
 		if menu_answer == "Quit":
 			break
 
-		if menu_answer == "Search":
-			table_selection = search_mode(table_selection)
-		
 		if menu_answer == "Select":
 			table_selection = select_mode(table_selection)
 
+		if menu_answer == "Search":
+			table_selection = search_mode(table_selection)
+		
 		if menu_answer == "Export":
 			selected_table_names = [t["name"] for t in table_selection if t["checked"]]
 			dbml = {k:v for k,v in dbml.items() if k in selected_table_names}
+			# TODO: ask for file name (still have default)
 			export_to_file(dbml)
 			return
 

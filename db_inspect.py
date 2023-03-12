@@ -4,47 +4,47 @@ import os
 import subprocess
 import shlex
 
-inspect_parser = argparse.ArgumentParser(
+db_inspect_parser = argparse.ArgumentParser(
     description="Inspect your PostgreSQL database as transform it into DBML notation. All arguments are required if not provided in a .env file.",
 )
 
 # Add flags for host, port, user, password, database, and schema, etc...
-inspect_parser.add_argument(
+db_inspect_parser.add_argument(
     "--host",
     "-H",
     type=str,
     help="The host of the database.",
 )
 
-inspect_parser.add_argument(
+db_inspect_parser.add_argument(
     "--port",
     "-p",
     type=int,
     help="The port of the database.",
 )
 
-inspect_parser.add_argument(
+db_inspect_parser.add_argument(
     "--user",
     "-u",
     type=str,
     help="The user of the database.",
 )
 
-inspect_parser.add_argument(
+db_inspect_parser.add_argument(
     "--password",
     "-P",
     type=str,
     help="The password of the database.",
 )
 
-inspect_parser.add_argument(
+db_inspect_parser.add_argument(
     "--database",
     "-d",
     type=str,
     help="The database to inspect.",
 )
 
-inspect_parser.add_argument(
+db_inspect_parser.add_argument(
     "--output",
     "-o",
     type=str,
@@ -53,14 +53,14 @@ inspect_parser.add_argument(
 )
 
 # Docker container name
-inspect_parser.add_argument(
+db_inspect_parser.add_argument(
     "--container",
     "-c",
     type=str,
     help="If provided, will run pg_dump for a docker container with this name.",
 )
 
-inspect_parser.add_argument(
+db_inspect_parser.add_argument(
     "--env",
     "-e",
     type=str,
@@ -69,7 +69,7 @@ inspect_parser.add_argument(
 )
 
 
-def inspect(args):
+def db_inspect(args):
     # Load environment variables
     load_env(args.env)
 

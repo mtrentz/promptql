@@ -1,5 +1,5 @@
 from argparse import ArgumentParser
-import inspect, generate
+import db_inspect, generate
 
 
 # Default func
@@ -18,13 +18,13 @@ subparsers = parser.add_subparsers(
     title="Operations", help="Call promptql.py <operation> -h for more info."
 )
 
-# inspect subcommand
-inspect_parser = subparsers.add_parser(
+# db_inspect subcommand
+db_inspect_parser = subparsers.add_parser(
     "inspect",
-    parents=[inspect.inspect_parser],
+    parents=[db_inspect.db_inspect_parser],
     add_help=False,
 )
-inspect_parser.set_defaults(func=inspect.inspect)
+db_inspect_parser.set_defaults(func=db_inspect.db_inspect)
 
 # generate subcommand
 generate_parser = subparsers.add_parser(
