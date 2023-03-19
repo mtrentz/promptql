@@ -9,7 +9,7 @@ def default(args):
 
 
 parser = ArgumentParser(
-    description="Transform your PostgreSQL database into DBML to be used in ChatGPT prompts.",
+    description="Transform your PostgreSQL database into a compact schema notation to be used in ChatGPT prompts.",
 )
 parser.set_defaults(func=default)
 

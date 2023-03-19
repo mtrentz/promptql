@@ -1,11 +1,12 @@
 import argparse
 from helpers.read_env import load_env
+from helpers.schema_converter import convert_schema
 import os
 import subprocess
 import shlex
 
 db_inspect_parser = argparse.ArgumentParser(
-    description="Inspect your PostgreSQL database as transform it into DBML notation. All arguments are required if not provided in a .env file.",
+    description="Inspect your PostgreSQL database as transform it into a compact schema notation. All arguments are required if not provided in a .env file.",
 )
 
 # Add flags for host, port, user, password, database, and schema, etc...
@@ -48,8 +49,8 @@ db_inspect_parser.add_argument(
     "--output",
     "-o",
     type=str,
-    help="The output file to write to. Defaults to schema.dbml",
-    default="schema.dbml",
+    help="The output file to write to. Defaults to out.schema",
+    default="out.schema",
 )
 
 # Docker container name
@@ -105,39 +106,16 @@ def db_inspect(args):
         # TODO: test this
         cmd = f"pg_dump {pg_dump_flags} -h {host} -p {port} -U {user} -d {database}"
 
-    # Save cleand sql to a temp file
-    tmp = "promptsql_temp_schema.sql"
-
-    # Run a bunch of commands to clean up the sql and write to output file
-    sql = subprocess.run(shlex.split(cmd), stdout=subprocess.PIPE)
-    awk = subprocess.run(
-        shlex.split(r"""awk 'BEGIN {RS=""; ORS="\n\n"} /CREATE TABLE[^;]*;/'"""),
-        input=sql.stdout,
-        stdout=subprocess.PIPE,
-    )
-    sed1 = subprocess.run(
-        shlex.split(r"""sed 's/double precision/double/g'"""),
-        input=awk.stdout,
-        stdout=subprocess.PIPE,
-    )
-    sed2 = subprocess.run(
-        shlex.split(r"""sed '/^[[:space:]]*CONSTRAINT/d'"""),
-        input=sed1.stdout,
-        stdout=subprocess.PIPE,
-    )
-    subprocess.run(
-        shlex.split(r"""sed ':a;N;$!ba;s/,\s*\n\s*)\s*;/\n);/g;s/[[:space:]]*$//'"""),
-        input=sed2.stdout,
-        stdout=open(tmp, "w"),
+    # Run the command
+    sql = subprocess.run(shlex.split(cmd), stdout=subprocess.PIPE).stdout.decode(
+        "utf-8"
     )
 
-    # Run dbml2sql with all the cleaning needed before
-    subprocess.run(
-        shlex.split(f"sql2dbml {tmp} --postgres"),
-        stdout=open(output, "w"),
-    )
+    # Convert the sql to compact schema notation
+    schema = convert_schema(sql)
 
-    # Remove temp file
-    os.remove(tmp)
+    # Write to file
+    with open(output, "w") as f:
+        f.write(schema)
 
     print("Database successfully inspected.")

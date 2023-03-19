@@ -1,0 +1,4 @@
+CONTAINER=container_name
+PASSWORD=password123
+USER=postgres
+DATABASE=database_name
