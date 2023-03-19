@@ -1,5 +1,20 @@
 import re
 
+HELP_TEXT = """This definition of a table uses abbreviated data types to specify the types of the columns. 
+Dates are represented by "D", numbers by "N", boolean values by "B", text values by "T", unknown by "?" and so on.
+"""
+
+
+def save_help_text(out_file=None):
+    """
+    Prints and outputs the helper text.
+    """
+    if out_file:
+        with open(out_file, "w") as f:
+            f.write(HELP_TEXT)
+
+    print("\n" + HELP_TEXT + "\n")
+
 
 def convert_schema(sql: str) -> str:
     """

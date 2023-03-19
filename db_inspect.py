@@ -1,6 +1,6 @@
 import argparse
 from helpers.read_env import load_env
-from helpers.schema_converter import convert_schema
+from helpers.schema_converter import convert_schema, save_help_text
 import os
 import subprocess
 import shlex
@@ -117,5 +117,8 @@ def db_inspect(args):
     # Write to file
     with open(output, "w") as f:
         f.write(schema)
+
+    # Helper text
+    save_help_text("helper.txt")
 
     print("Database successfully inspected.")
